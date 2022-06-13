@@ -157,9 +157,23 @@ function printCart() {
 
   for (let list of cartList) {
     if (list.subtotalWithDiscount) {
-      textCart += `<tr><th scope="row">${list.name}</th><td>${list.price*list.discount}</td><td>${list.quantity}</td><td>${list.subtotalWithDiscount}</td></tr>`;
+      textCart += `
+        <tr>
+        <th scope="row">${list.name}</th>
+        <td>${list.price*list.discount}</td>
+        <td>${list.quantity}</td>
+        <td>${list.subtotalWithDiscount}</td>
+        <td><button onclick="removeFromCart(${list.id})"><i class="bi bi-trash"></i></button></td>
+        </tr>`;
     } else {
-      textCart += `<tr><th scope="row">${list.name}</th><td>${list.price}</td><td>${list.quantity}</td><td>${list.subtotal}</td></tr>`;
+      textCart += `
+        <tr>
+        <th scope="row">${list.name}</th>
+        <td>${list.price}</td>
+        <td>${list.quantity}</td>
+        <td>${list.subtotal}</td>
+        <td><button onclick="removeFromCart(${list.id})">Delete 1</button></td>
+        </tr>`;
     }
   }
   for (let list of cartList){
@@ -228,6 +242,23 @@ function addToCart(id) {
 function removeFromCart(id) {
   // 1. Loop for to the array products to get the item to add to cart
   // 2. Add found product to the cartList array
+
+  let added = false;
+  let i = 0;
+
+  while (!added && i < cartList.length) {
+    if (cartList[i].id === id){
+      if (cartList[i].quantity > 1) {
+        cartList[i].quantity -= 1;
+      } else {
+        cartList.splice(i,1);
+      }
+      added = true;
+    }
+    i++;
+  }
+
+  applyPromotionsCart();
 }
 
 function open_modal(){
