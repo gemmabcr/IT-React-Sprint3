@@ -134,11 +134,15 @@ function applyPromotionsCart() {
     if (list.id === 1 && list.quantity >= list.offer.number) {
       list.discount = 1-(list.offer.percent/100);
       list.subtotalWithDiscount = (list.subtotal*list.discount).toFixed(2);
+    } else if (list.id === 1 && list.subtotalWithDiscount) {
+      list.subtotalWithDiscount = null;
     }
 
     if (list.id === 3 && list.quantity >= list.offer.number) {
       list.discount = 1-(list.offer.percent/100);
       list.subtotalWithDiscount = (list.subtotal*list.discount).toFixed(2);
+    } else if (list.id === 3 && list.subtotalWithDiscount) {
+      list.subtotal = null;
     }
   }
 
@@ -179,7 +183,6 @@ function addToCart(id) {
   // 1. Loop for to the array products to get the item to add to cart
   // 2. Add found product to the cart array or update its quantity in case it has been added previously.
 
-  //1 que es pasta
   let matched = false;
   let i = 0;
 
@@ -191,7 +194,8 @@ function addToCart(id) {
         product.subtotal = product.price * product.quantity;
         cartList.push(product);
 
-      } else {
+      }
+      else {
         let found = false;
         let j = 0;
 
@@ -212,6 +216,9 @@ function addToCart(id) {
         }
       }
     }
+
+    matched = true;
+    i++;
   }
 
   applyPromotionsCart();
@@ -224,4 +231,5 @@ function removeFromCart(id) {
 }
 
 function open_modal(){
+  printCart();
 }
