@@ -188,7 +188,7 @@ function addToCart(id) {
 
   while (!matched && i < products.length) {
     if (products[i].id === id){
-      if (cartList.length > 0) {
+      if (cartList.length === 0) {
         let product = products[i];
         product.quantity = 1;
         product.subtotal = product.price * product.quantity;
@@ -215,9 +215,9 @@ function addToCart(id) {
           cartList.push(product);
         }
       }
-    }
 
-    matched = true;
+      matched = true;
+    }
     i++;
   }
 
