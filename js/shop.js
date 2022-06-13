@@ -80,8 +80,8 @@ var cartList = [];
 
 // Exercise 2
 function cleanCart() {
-  let cart = [];
-  printCart(cart);
+  cartList = [];
+  printCart();
 }
 
 // Exercise 3
@@ -128,9 +128,9 @@ function cleanCart() {
 }*/
 
 // Exercise 5
-function applyPromotionsCart(cart) {
+function applyPromotionsCart() {
   // Apply promotions to each item in the array "cart"
-  for (let list of cart){
+  for (let list of cartList){
     if (list.id === 1 && list.quantity >= list.offer.number) {
       list.discount = 1-(list.offer.percent/100);
       list.subtotalWithDiscount = (list.subtotal*list.discount).toFixed(2);
@@ -142,23 +142,23 @@ function applyPromotionsCart(cart) {
     }
   }
 
-  printCart(cart);
+  printCart();
 }
 
 // Exercise 6
-function printCart(cart) {
+function printCart() {
   // Fill the shopping cart modal manipulating the shopping cart dom
   let total = 0;
   let textCart = '';
 
-  for (let list of cart) {
+  for (let list of cartList) {
     if (list.subtotalWithDiscount) {
       textCart += `<tr><th scope="row">${list.name}</th><td>${list.price*list.discount}</td><td>${list.quantity}</td><td>${list.subtotalWithDiscount}</td></tr>`;
     } else {
       textCart += `<tr><th scope="row">${list.name}</th><td>${list.price}</td><td>${list.quantity}</td><td>${list.subtotal}</td></tr>`;
     }
   }
-  for (let list of cart){
+  for (let list of cartList){
     if (list.subtotalWithDiscount) {
       total += Number(list.subtotalWithDiscount);
     } else {
@@ -179,43 +179,42 @@ function addToCart(id) {
   // 1. Loop for to the array products to get the item to add to cart
   // 2. Add found product to the cart array or update its quantity in case it has been added previously.
 
-  for (let product of products){
-    if (product.id === id){
-      cartList.push(product)
-    }
-  }
+  //1 que es pasta
+  let matched = false;
+  let i = 0;
 
-  let cart = [];
-
-  for (let list of cartList) {
-
-    if (cart.length > 0) {
-      let found = false;
-      let j = 0;
-
-      while (!found && j < cart.length) {
-        if (list.name === cart[j].name) {
-          cart[j].quantity += 1;
-          cart[j].subtotal = cart[j].quantity * cart[j].price;
-          found = true
-        }
-        j++
-      }
-
-      if (!found){
-        let product = list;
+  while (!matched && i < products.length) {
+    if (products[i].id === id){
+      if (cartList.length > 0) {
+        let product = products[i];
         product.quantity = 1;
         product.subtotal = product.price * product.quantity;
-        cart.push(product);
+        cartList.push(product);
+
+      } else {
+        let found = false;
+        let j = 0;
+
+        while (!found && j < cartList.length) {
+          if (products[i].id === cartList[j].id) {
+            cartList[j].quantity += 1;
+            cartList[j].subtotal = cartList[j].quantity * cartList[j].price;
+            found = true
+          }
+          j++
+        }
+
+        if (!found) {
+          let product = products[i];
+          product.quantity = 1;
+          product.subtotal = product.price * product.quantity;
+          cartList.push(product);
+        }
       }
-    } else {
-      let product = list;
-      product.quantity = 1;
-      product.subtotal = product.price * product.quantity;
-      cart.push(product);
     }
   }
-  applyPromotionsCart(cart);
+
+  applyPromotionsCart();
 }
 
 // Exercise 8
