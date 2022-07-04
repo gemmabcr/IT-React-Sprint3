@@ -125,6 +125,14 @@ function generateCart() {
 // Exercise 5
 function applyPromotionsCart() {
   // Apply promotions to each item in the array "cart"
+  for (let list of cart){
+    list.subtotal = list.quantity * list.price;
+    if (list.offer && list.quantity >= list.offer.number){
+      list.offer.price = list.price * (1-(list.offer.percent/100));
+      list.subtotalDiscounted = list.quantity * list.offer.price;
+    }
+  }
+  console.log(cart);
 }
 
 // Exercise 6
