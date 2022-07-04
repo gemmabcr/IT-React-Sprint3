@@ -81,12 +81,11 @@ function buy(id) {
       cartList.push(product)
     }
   }
-  console.log(cartList);
 }
 
 // Exercise 2
 function cleanCart() {
-
+  cartList.length = 0;
 }
 
 // Exercise 3
