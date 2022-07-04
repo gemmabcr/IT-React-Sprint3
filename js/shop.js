@@ -139,7 +139,6 @@ function applyPromotionsCart() {
 // Exercise 6
 function printCart() {
   // Fill the shopping cart modal manipulating the shopping cart dom
-  generateCart();
   applyPromotionsCart();
   total = 0;
   let textCart = '';
@@ -183,6 +182,35 @@ function addToCart(id) {
   // Refactor previous code in order to simplify it
   // 1. Loop for to the array products to get the item to add to cart
   // 2. Add found product to the cart array or update its quantity in case it has been added previously.
+
+  let productFound = false;
+  let i = 0;
+  while (!productFound && i < products.length) {
+    if (id === products[i].id){
+      if (cart.length > 0){
+        let repeated = false;
+        let j = 0;
+        while (!repeated && j < cart.length){
+          if (products[i].id === cart[j].id){
+            cart[j].quantity += 1;
+            repeated = true;
+          }
+          j++
+        }
+        if (!repeated){
+          let product = products[i];
+          product.quantity = 1;
+          cart.push(product);
+        }
+      } else {
+        let product = products[i];
+        product.quantity = 1;
+        cart.push(product);
+      }
+      productFound = true;
+    }
+    i++
+  }
 }
 
 // Exercise 8
