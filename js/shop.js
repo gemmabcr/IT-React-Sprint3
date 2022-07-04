@@ -86,6 +86,8 @@ function buy(id) {
 // Exercise 2
 function cleanCart() {
   cartList.length = 0;
+  cart.length = 0;
+  printCart();
 }
 
 // Exercise 3
@@ -137,7 +139,9 @@ function applyPromotionsCart() {
 // Exercise 6
 function printCart() {
   // Fill the shopping cart modal manipulating the shopping cart dom
+  generateCart();
   applyPromotionsCart();
+  total = 0;
   let textCart = '';
 
   for (let list of cart) {
