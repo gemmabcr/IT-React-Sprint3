@@ -61,7 +61,7 @@ var products = [
     name: 'Toddler Frock',
     price: 9.99,
     type: 'clothes'
-  }
+  },
 ]
 // Array with products (objects) added directly with push(). Products in this array are repeated.
 var cartList = [];
@@ -75,6 +75,13 @@ var total = 0;
 function buy(id) {
   // 1. Loop for to the array products to get the item to add to cart
   // 2. Add found product to the cartList array
+
+  for (let product of products){
+    if (id === product.id){
+      cartList.push(product)
+    }
+  }
+  console.log(cartList);
 }
 
 // Exercise 2
