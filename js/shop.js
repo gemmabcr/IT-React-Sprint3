@@ -126,18 +126,49 @@ function generateCart() {
 function applyPromotionsCart() {
   // Apply promotions to each item in the array "cart"
   for (let list of cart){
-    list.subtotal = list.quantity * list.price;
+    list.subtotal = (list.quantity * list.price).toFixed(2);
     if (list.offer && list.quantity >= list.offer.number){
       list.offer.price = list.price * (1-(list.offer.percent/100));
-      list.subtotalDiscounted = list.quantity * list.offer.price;
+      list.subtotalDiscounted = (list.quantity * list.offer.price).toFixed(2);
     }
   }
-  console.log(cart);
 }
 
 // Exercise 6
 function printCart() {
   // Fill the shopping cart modal manipulating the shopping cart dom
+  applyPromotionsCart();
+  let textCart = '';
+
+  for (let list of cart) {
+    if (list.subtotalDiscounted) {
+      textCart += `
+        <tr>
+        <th scope="row">${list.name}</th>
+        <td>${list.offer.price}</td>
+        <td>${list.quantity}</td>
+        <td>${list.subtotalDiscounted}</td>
+        </tr>`;
+    } else {
+      textCart += `
+        <tr>
+        <th scope="row">${list.name}</th>
+        <td>${list.price}</td>
+        <td>${list.quantity}</td>
+        <td>${list.subtotal}</td>
+        </tr>`;
+    }
+  }
+  for (let list of cart){
+    if (list.subtotalDiscounted){
+      total += Number(list.subtotalDiscounted);
+    } else {
+      total += Number(list.subtotal);
+    }
+  }
+
+  document.getElementById('cart_list').innerHTML = textCart;
+  document.getElementById('total_price').innerHTML = total;
 }
 
 
