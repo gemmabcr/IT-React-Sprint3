@@ -151,6 +151,7 @@ function printCart() {
         <td>${list.offer.price}</td>
         <td>${list.quantity}</td>
         <td>${list.subtotalDiscounted}</td>
+        <td><button onclick="removeFromCart(${list.id})"><i class="bi bi-trash"></i></button></td>
         </tr>`;
     } else {
       textCart += `
@@ -159,6 +160,7 @@ function printCart() {
         <td>${list.price}</td>
         <td>${list.quantity}</td>
         <td>${list.subtotal}</td>
+        <td><button onclick="removeFromCart(${list.id})"><i class="bi bi-trash"></i></button></td>
         </tr>`;
     }
   }
@@ -217,9 +219,27 @@ function addToCart(id) {
 function removeFromCart(id) {
   // 1. Loop for to the array products to get the item to add to cart
   // 2. Add found product to the cartList array
+
+  let founded = false;
+  let i = 0;
+
+  while (!founded && i < cart.length) {
+    if (id === cart[i].id){
+      if (cart[i].quantity > 1){
+        cart[i].quantity -= 1;
+        if (cart[i].offer && cart[i].quantity < cart[i].offer.number){
+          cart[i].subtotalDiscounted = null;
+        }
+      } else {
+        cart.splice(i,1);
+      }
+    }
+    i++;
+  }
+
+  printCart();
 }
 
 function open_modal(){
-  console.log("Open Modal");
   printCart();
 }
